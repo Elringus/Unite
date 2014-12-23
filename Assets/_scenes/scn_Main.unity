@@ -86,6 +86,7 @@ GameObject:
   - 92: {fileID: 345910855}
   - 124: {fileID: 345910854}
   - 81: {fileID: 345910853}
+  - 114: {fileID: 345910859}
   - 114: {fileID: 345910858}
   m_Layer: 0
   m_Name: _camera
@@ -172,11 +173,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MinArea: {x: -10, y: -10}
   MaxArea: {x: 10, y: 10}
-  InitialZoom: 10
+  InitialZoom: 6
   ZoomSpeed: 5
   MoveSpeed: 3
   MinZoom: 1
   MaxZoom: 30
+--- !u!114 &345910859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 345910852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1690312454, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &458745838
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +358,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'pre-alpha ver. 0.1
 
-    23.12.2014 16:10:14'
+    23.12.2014 18:12:30'
 --- !u!222 &722667665
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -23,6 +23,14 @@ public class GameManager : MonoBehaviour
 
 	[HideInInspector]
 	public List<Node> Nodes = new List<Node>();
+	public float SelectedNumber
+	{
+		get
+		{
+			var node = Nodes.Find(n => n.Selected && n.Number != 0);
+			return node == null ? 0 : node.Number;
+		}
+	}
 
 	private void Awake () 
 	{
@@ -43,8 +51,21 @@ public class GameManager : MonoBehaviour
 			for (int y = 1; y <= 10; y++)
 			{
 				var node = (Instantiate(NodePrefab) as GameObject).GetComponent<Node>();
+				if (Random.Range(0, 10) == 0) node.Number = Random.Range(0, 6);
 				node.Position = new Vector2(x, y);
 				node.transform.parent = NodeParent.transform;
+
+				Nodes.Add(node);
 			}
+	}
+
+	public void UnselectAllNodes ()
+	{
+		foreach (var node in Nodes) node.Selected = false;
+	}
+
+	public void UniteSelectedNodes ()
+	{
+
 	}
 }
