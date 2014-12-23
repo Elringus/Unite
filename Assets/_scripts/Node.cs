@@ -50,11 +50,6 @@ public class Node : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHandler
 		textMesh = GetComponentInChildren<TextMesh>();
 	}
 
-	private void Update () 
-	{
-    	
-	}
-
 	public void OnPointerEnter (PointerEventData eventData)
 	{
 		// check that we are actually swiping
@@ -76,6 +71,7 @@ public class Node : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHandler
 		}
 
 		Selected = true;
+		if (Number != 0) GameManager.I.LastSelectedNotNullNode = this;
 	}
 
 	public void OnBeginDrag (PointerEventData eventData)
@@ -85,6 +81,7 @@ public class Node : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHandler
 		if (Number == 0) return;
 
 		Selected = true;
+		GameManager.I.FirstSelectedNode = this;
 	}
 
 	public void OnDrag (PointerEventData eventData)
@@ -94,6 +91,7 @@ public class Node : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHandler
 
 	public void OnDrop (PointerEventData eventData)
 	{
-		
+		GameManager.I.LastSelectedNode = this;
+		if (Number != 0) GameManager.I.LastSelectedNotNullNode = this;
 	}
 }
