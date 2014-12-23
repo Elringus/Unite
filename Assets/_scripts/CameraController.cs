@@ -1,39 +1,24 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.EventSystems;
 
 public class CameraController : MonoBehaviour
 {
-	#region SINGLETON
-	private static CameraController _instance;
-	public static CameraController I
-	{
-		get
-		{
-			if (_instance == null) _instance = FindObjectOfType(typeof(CameraController)) as CameraController;
-			return _instance;
-		}
-	}
-	private void OnApplicationQuit () { _instance = null; }
-	#endregion
-
-	[HideInInspector]
-	public Transform Transform;
-	public float InitialZoom;
 	public Vector2 MinArea;
 	public Vector2 MaxArea;
-	public float MoveSpeed;
+	public float InitialZoom;
 	public float ZoomSpeed;
+	public float MoveSpeed;
 	public float MinZoom;
 	public float MaxZoom;
 
+	//private Transform myTransform;
 	private Camera myCamera;
 	private Vector3 lastPointerPosition;
 	private float prevPinch;
 
 	private void Awake ()
 	{
-		Transform = transform;
+		//myTransform = transform;
 		myCamera = GetComponent<Camera>();
 
 		myCamera.orthographicSize = InitialZoom;
@@ -45,7 +30,7 @@ public class CameraController : MonoBehaviour
 		if (Application.isEditor)
 		{
 			if (Input.GetMouseButtonDown(0)) lastPointerPosition = Input.mousePosition; // prevents camera dancing
-			if (Input.GetMouseButton(0) && !CameraLocked()) 
+			if (Input.GetMouseButton(0) && !CameraLocked())
 				MoveCamera((lastPointerPosition - Input.mousePosition) * Time.deltaTime * MoveSpeed * myCamera.orthographicSize);
 			lastPointerPosition = Input.mousePosition;
 			ZoomCamera(Input.GetAxis("Mouse ScrollWheel"));
@@ -90,8 +75,8 @@ public class CameraController : MonoBehaviour
 
 	private void MoveCamera (Vector3 delta)
 	{
-		Transform.position = new Vector3(Mathf.Clamp(Transform.position.x + delta.x, MinArea.x, MaxArea.x),
-                                         Mathf.Clamp(Transform.position.y + delta.y, MinArea.y, MaxArea.y), Transform.position.z);
+		//myTransform.position = new Vector3(Mathf.Clamp(myTransform.position.x + delta.x, MinArea.x, MaxArea.x),
+		//								 Mathf.Clamp(myTransform.position.y + delta.y, MinArea.y, MaxArea.y), myTransform.position.z);
 	}
 
 	private void ZoomCamera (float delta)
