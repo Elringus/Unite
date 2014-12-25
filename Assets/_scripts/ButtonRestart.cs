@@ -9,6 +9,6 @@ public class ButtonRestart : MonoBehaviour
 	{
 		restartButton = GetComponent<Button>();
 		restartButton.onClick.RemoveAllListeners();
-		restartButton.onClick.AddListener(() => GameManager.I.Restart());
+		restartButton.onClick.AddListener(() => GameManager.I.ProcessRestart());
 	}
 }

@@ -29,10 +29,17 @@ public class GameManager : MonoBehaviour
 	public Vector2 InitialTargetInterval = new Vector2(4, 8);
 	public float TargetMultiplicator = 1.25f;
 
+	public delegate void NextTurn ();
+	public static event NextTurn OnNextTurn;
+	public delegate void RestartGame ();
+	public static event RestartGame OnRestartGame;
+
 	[HideInInspector]
 	public List<int> Targets = new List<int>(3);
 	[HideInInspector]
 	public List<Node> Nodes = new List<Node>();
+	[HideInInspector]
+	public int Turn = 1;
 	public float SelectedNumber
 	{
 		get
@@ -47,21 +54,19 @@ public class GameManager : MonoBehaviour
 	public Node LastSelectedNode;
 	[HideInInspector]
 	public Node LastSelectedNotNullNode;
-	[HideInInspector]
-	private int Turn = 1;
 
-	private void Awake () 
+	private void Awake ()
 	{
-		Restart();
+		ProcessRestart();
 	}
 
-	public void Restart ()
+	public void ProcessRestart ()
 	{
 		Nodes.Clear();
 		foreach (Transform node in NodeParent.transform) Destroy(node.gameObject);
 
 		Targets.Clear();
-		for (int i = 0; i < 3; i++) 
+		for (int i = 0; i < 3; i++)
 			Targets.Add(RandomExtension.RangeExcluded((int)InitialTargetInterval.x, (int)InitialTargetInterval.y, Targets.ToArray()));
 
 		for (int x = 0; x <= GridSize.x; x++)
@@ -76,6 +81,8 @@ public class GameManager : MonoBehaviour
 
 		for (int i = 0; i < InitialNumberCount; i++)
 			Nodes.FindAll(n => n.Number == 0).Random().Number = Random.Range((int)InitialNumberInterval.x, (int)InitialNumberInterval.y + 1);
+
+		OnRestartGame();
 	}
 
 	public void UnselectAllNodes ()
@@ -97,6 +104,7 @@ public class GameManager : MonoBehaviour
 		{
 			LastSelectedNode.Number = selectedNodes.Find(n => n.Number != 0).Number;
 			UnselectAllNodes();
+			ProcessTurn();
 			return;
 		}
 
@@ -104,10 +112,8 @@ public class GameManager : MonoBehaviour
 		LastSelectedNotNullNode.Number = selectedNodes.FindAll(n => n.Number != 0).Sum(n => n.Number);
 		if (Targets.Contains(LastSelectedNotNullNode.Number))
 		{
-			Turn++;
-
 			int newTarget = Mathf.CeilToInt(Targets[Targets.IndexOf(LastSelectedNotNullNode.Number)] * TargetMultiplicator);
-			while (Targets.Exists(t => t == newTarget)) 
+			while (Targets.Exists(t => t == newTarget))
 				newTarget = Mathf.CeilToInt(newTarget * TargetMultiplicator);
 			Targets[Targets.IndexOf(LastSelectedNotNullNode.Number)] = newTarget;
 		}
@@ -118,5 +124,13 @@ public class GameManager : MonoBehaviour
 		}
 		foreach (var node in selectedNodes) node.Number = 0;
 		UnselectAllNodes();
+
+		ProcessTurn();
+	}
+
+	private void ProcessTurn ()
+	{
+		Turn++;
+		OnNextTurn();
 	}
 }

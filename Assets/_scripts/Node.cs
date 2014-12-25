@@ -1,22 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Node : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHandler, IPointerEnterHandler
+public class Node : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHandler, IPointerEnterHandler, IPointerClickHandler
 {
 	private int _number;
 	public int Number
 	{
 		get { return _number; }
-		set 
+		set
 		{
 			if (value == _number) return;
 			textMesh.text = value == 0 ? string.Empty : value.ToString();
-			_number = value; 
+			_number = value;
 		}
 	}
 
 	private Vector2 _position;
-	public Vector2 Position 
+	public Vector2 Position
 	{
 		get { return _position; }
 		set
@@ -43,7 +43,7 @@ public class Node : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHandler
 	private SpriteRenderer sprite;
 	private TextMesh textMesh;
 
-	private void Awake () 
+	private void Awake ()
 	{
 		myTransform = transform;
 		sprite = GetComponent<SpriteRenderer>();
@@ -86,12 +86,17 @@ public class Node : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHandler
 
 	public void OnDrag (PointerEventData eventData)
 	{
-		
+
 	}
 
 	public void OnDrop (PointerEventData eventData)
 	{
 		GameManager.I.LastSelectedNode = this;
 		if (Number != 0) GameManager.I.LastSelectedNotNullNode = this;
+	}
+
+	public void OnPointerClick (PointerEventData eventData)
+	{
+		if (Number != 0) HelpButton.Use(this);
 	}
 }
