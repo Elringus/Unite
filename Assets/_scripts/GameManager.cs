@@ -26,7 +26,11 @@ public class GameManager : MonoBehaviour
 	public Vector2 GridSize = new Vector2(7, 7);
 	public int InitialNumberCount = 5;
 	public Vector2 InitialNumberInterval = new Vector2(1, 3);
+	public Vector2 InitialTargetInterval = new Vector2(4, 8);
+	public float TargetMultiplicator = 1.25f;
 
+	[HideInInspector]
+	public List<int> Targets = new List<int>(3);
 	[HideInInspector]
 	public List<Node> Nodes = new List<Node>();
 	public float SelectedNumber
@@ -43,11 +47,8 @@ public class GameManager : MonoBehaviour
 	public Node LastSelectedNode;
 	[HideInInspector]
 	public Node LastSelectedNotNullNode;
-
 	[HideInInspector]
-	public List<int> Targets = new List<int>(3);
-
-	private int turn = 1;
+	private int Turn = 1;
 
 	private void Awake () 
 	{
@@ -60,7 +61,8 @@ public class GameManager : MonoBehaviour
 		foreach (Transform node in NodeParent.transform) Destroy(node.gameObject);
 
 		Targets.Clear();
-		for (int i = 0; i < 3; i++) Targets.Add(Random.Range(2, 9));
+		for (int i = 0; i < 3; i++) 
+			Targets.Add(RandomExtension.RangeExcluded((int)InitialTargetInterval.x, (int)InitialTargetInterval.y, Targets.ToArray()));
 
 		for (int x = 0; x <= GridSize.x; x++)
 			for (int y = 1; y <= GridSize.y; y++)
@@ -73,7 +75,7 @@ public class GameManager : MonoBehaviour
 			}
 
 		for (int i = 0; i < InitialNumberCount; i++)
-			Nodes.FindAll(n => n.Number == 0).OrderBy(x => Guid.NewGuid()).First().Number = Random.Range((int)InitialNumberInterval.x, (int)InitialNumberInterval.y + 1);
+			Nodes.FindAll(n => n.Number == 0).Random().Number = Random.Range((int)InitialNumberInterval.x, (int)InitialNumberInterval.y + 1);
 	}
 
 	public void UnselectAllNodes ()
@@ -102,8 +104,12 @@ public class GameManager : MonoBehaviour
 		LastSelectedNotNullNode.Number = selectedNodes.FindAll(n => n.Number != 0).Sum(n => n.Number);
 		if (Targets.Contains(LastSelectedNotNullNode.Number))
 		{
-			turn++;
-			Targets[Targets.IndexOf(LastSelectedNotNullNode.Number)] = Random.Range(2 + turn, 9 + turn);
+			Turn++;
+
+			int newTarget = Mathf.CeilToInt(Targets[Targets.IndexOf(LastSelectedNotNullNode.Number)] * TargetMultiplicator);
+			while (Targets.Exists(t => t == newTarget)) 
+				newTarget = Mathf.CeilToInt(newTarget * TargetMultiplicator);
+			Targets[Targets.IndexOf(LastSelectedNotNullNode.Number)] = newTarget;
 		}
 		else
 		{
