@@ -600,9 +600,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'pre-alpha ver. 0.1
+  m_Text: 'pre-alpha ver. 0.2
 
-    25.12.2014 12:17:23'
+    25.12.2014 12:23:26'
 --- !u!222 &722667665
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -855,6 +855,8 @@ MonoBehaviour:
   NodePrefab: {fileID: 147176, guid: aae210f74c8d1764196557cb78d56b86, type: 2}
   NodeParent: {fileID: 1555238821}
   GridSize: {x: 7, y: 7}
+  InitialNumberCount: 5
+  InitialNumberInterval: {x: 1, y: 3}
   Nodes: []
   FirstSelectedNode: {fileID: 0}
   LastSelectedNode: {fileID: 0}

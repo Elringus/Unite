@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using Random = UnityEngine.Random;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,6 +24,8 @@ public class GameManager : MonoBehaviour
 	public GameObject NodeParent;
 
 	public Vector2 GridSize = new Vector2(7, 7);
+	public int InitialNumberCount = 5;
+	public Vector2 InitialNumberInterval = new Vector2(1, 3);
 
 	[HideInInspector]
 	public List<Node> Nodes = new List<Node>();
@@ -62,12 +66,14 @@ public class GameManager : MonoBehaviour
 			for (int y = 1; y <= GridSize.y; y++)
 			{
 				var node = (Instantiate(NodePrefab) as GameObject).GetComponent<Node>();
-				if (Random.Range(0, 10) == 0) node.Number = Random.Range(0, 6);
 				node.Position = new Vector2(x, y);
 				node.transform.parent = NodeParent.transform;
 
 				Nodes.Add(node);
 			}
+
+		for (int i = 0; i < InitialNumberCount; i++)
+			Nodes.FindAll(n => n.Number == 0).OrderBy(x => Guid.NewGuid()).First().Number = Random.Range((int)InitialNumberInterval.x, (int)InitialNumberInterval.y + 1);
 	}
 
 	public void UnselectAllNodes ()
