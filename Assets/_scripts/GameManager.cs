@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
 	public GameObject NodePrefab;
 	public GameObject NodeParent;
 
+	public Vector2 GridSize = new Vector2(7, 7);
+
 	[HideInInspector]
 	public List<Node> Nodes = new List<Node>();
 	public float SelectedNumber
@@ -31,10 +33,14 @@ public class GameManager : MonoBehaviour
 			return node == null ? 0 : node.Number;
 		}
 	}
+	[HideInInspector]
 	public Node FirstSelectedNode;
+	[HideInInspector]
 	public Node LastSelectedNode;
+	[HideInInspector]
 	public Node LastSelectedNotNullNode;
 
+	[HideInInspector]
 	public List<int> Targets = new List<int>(3);
 
 	private int turn = 1;
@@ -52,8 +58,8 @@ public class GameManager : MonoBehaviour
 		Targets.Clear();
 		for (int i = 0; i < 3; i++) Targets.Add(Random.Range(2, 9));
 
-		for (int x = 1; x <= 10; x++)
-			for (int y = 1; y <= 10; y++)
+		for (int x = 0; x <= GridSize.x; x++)
+			for (int y = 1; y <= GridSize.y; y++)
 			{
 				var node = (Instantiate(NodePrefab) as GameObject).GetComponent<Node>();
 				if (Random.Range(0, 10) == 0) node.Number = Random.Range(0, 6);

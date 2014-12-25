@@ -252,7 +252,7 @@ Camera:
   far clip plane: 100
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -289,7 +289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MinArea: {x: -10, y: -10}
   MaxArea: {x: 10, y: 10}
-  InitialZoom: 6
+  InitialZoom: 5
   ZoomSpeed: 5
   MoveSpeed: 3
   MinZoom: 1
@@ -602,7 +602,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'pre-alpha ver. 0.1
 
-    23.12.2014 19:29:38'
+    25.12.2014 12:17:23'
 --- !u!222 &722667665
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -854,6 +854,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NodePrefab: {fileID: 147176, guid: aae210f74c8d1764196557cb78d56b86, type: 2}
   NodeParent: {fileID: 1555238821}
+  GridSize: {x: 7, y: 7}
   Nodes: []
   FirstSelectedNode: {fileID: 0}
   LastSelectedNode: {fileID: 0}
