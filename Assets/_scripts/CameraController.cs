@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour
 		myCamera = GetComponent<Camera>();
 
 		myCamera.orthographicSize = InitialZoom;
-		transform.position = new Vector3(GameManager.I.GridSize.x / 2, GameManager.I.GridSize.y / 2, transform.position.z);
+		//transform.position = new Vector3(GameManager.I.GridSize.x / 2, GameManager.I.GridSize.y / 2, transform.position.z);
 	}
 
 	private void Update ()

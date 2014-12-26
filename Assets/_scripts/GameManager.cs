@@ -69,8 +69,8 @@ public class GameManager : MonoBehaviour
 		for (int i = 0; i < 3; i++)
 			Targets.Add(RandomExtension.RangeExcluded((int)InitialTargetInterval.x, (int)InitialTargetInterval.y, Targets.ToArray()));
 
-		for (int x = 0; x <= GridSize.x; x++)
-			for (int y = 1; y <= GridSize.y; y++)
+		for (int x = 0; x < GridSize.x; x++)
+			for (int y = 0; y < GridSize.y; y++)
 			{
 				var node = (Instantiate(NodePrefab) as GameObject).GetComponent<Node>();
 				node.Position = new Vector2(x, y);
