@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour
 		if (!Targets.Contains(targetNumber)) return;
 
 		int newTarget = Mathf.CeilToInt(targetNumber * TargetMultiplicator);
-		while (Targets.Exists(t => t == newTarget))
+		while (Targets.Exists(t => t == newTarget) || Nodes.Exists(n => n.Number == newTarget))
 			newTarget = Mathf.CeilToInt(newTarget * TargetMultiplicator);
 		Targets[Targets.IndexOf(targetNumber)] = newTarget;
 	}
