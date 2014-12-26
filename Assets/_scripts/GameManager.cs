@@ -110,18 +110,10 @@ public class GameManager : MonoBehaviour
 
 		// case we selected several equal nodes => summ them to the last selected not null, null all nodes except first selected
 		LastSelectedNotNullNode.Number = selectedNodes.FindAll(n => n.Number != 0).Sum(n => n.Number);
-		if (Targets.Contains(LastSelectedNotNullNode.Number))
-		{
-			int newTarget = Mathf.CeilToInt(Targets[Targets.IndexOf(LastSelectedNotNullNode.Number)] * TargetMultiplicator);
-			while (Targets.Exists(t => t == newTarget))
-				newTarget = Mathf.CeilToInt(newTarget * TargetMultiplicator);
-			Targets[Targets.IndexOf(LastSelectedNotNullNode.Number)] = newTarget;
-		}
-		else
-		{
-			selectedNodes.Remove(FirstSelectedNode);
-			selectedNodes.Remove(LastSelectedNotNullNode);
-		}
+		if (Targets.Contains(LastSelectedNotNullNode.Number)) CompleteTarget(LastSelectedNotNullNode.Number);
+		else selectedNodes.Remove(FirstSelectedNode);
+		selectedNodes.Remove(LastSelectedNotNullNode); // we now keep last selected number, even if we completed the target
+
 		foreach (var node in selectedNodes) node.Number = 0;
 		UnselectAllNodes();
 
@@ -132,5 +124,15 @@ public class GameManager : MonoBehaviour
 	{
 		Turn++;
 		OnNextTurn();
+	}
+
+	public void CompleteTarget (int targetNumber)
+	{
+		if (!Targets.Contains(targetNumber)) return;
+
+		int newTarget = Mathf.CeilToInt(targetNumber * TargetMultiplicator);
+		while (Targets.Exists(t => t == newTarget))
+			newTarget = Mathf.CeilToInt(newTarget * TargetMultiplicator);
+		Targets[Targets.IndexOf(targetNumber)] = newTarget;
 	}
 }

@@ -92,6 +92,8 @@ public class HelpButton : MonoBehaviour
 				break;
 		}
 
+		GameManager.I.CompleteTarget(node.Number); // check if we completed one of the targets by using help
+
 		helpButtons[SelectedHelp].cooldownTimer = helpButtons[SelectedHelp].Cooldown;
 		Unselect();
 	}
