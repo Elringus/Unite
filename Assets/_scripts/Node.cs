@@ -71,6 +71,7 @@ public class Node : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHandler
 		}
 
 		Selected = true;
+		GameManager.I.LastSelectedNode = this;
 		if (Number != 0) GameManager.I.LastSelectedNotNullNode = this;
 	}
 
